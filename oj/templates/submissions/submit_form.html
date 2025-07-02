@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-body">
+      <h3 class="card-title mb-4">Submit to: {{ problem.title }}</h3>
+
+      <form method="post" action="{% url 'submit' problem.slug %}">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="language" class="form-label">Language</label>
+          <select name="language" class="form-select" id="language">
+            <option value="python">Python</option>
+            <option value="cpp">C++</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="code" class="form-label">Code</label>
+          <textarea name="code" id="code" class="form-control" rows="12" placeholder="# Write your code here"></textarea>
+        </div>
+
+        <div class="text-end">
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,4 @@
+.verdict.accepted { background-color: green; }
+.verdict.wrong-answer { background-color: red; }
+.verdict.time-limit-exceeded { background-color: orange; }
+.verdict.runtime-error { background-color: crimson; }

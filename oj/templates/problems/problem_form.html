@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Create Problem</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <h4 class="mt-4">Testcases</h4>
+    {{ formset.management_form }}
+
+<template id="empty-form">
+  <tr>
+    <td>{{ formset.empty_form.order }}</td>
+    <td>{{ formset.empty_form.input_data }}</td>
+    <td>{{ formset.empty_form.expected_output }}</td>
+    <td>{{ formset.empty_form.is_sample }}</td>
+    <td>{{ formset.empty_form.DELETE }}</td>
+  </tr>
+</template>
+
+<table class="table">
+  <thead class="table-light">
+    <tr>
+      <th>Order</th>
+      <th>Input</th>
+      <th>Expected Output</th>
+      <th>Sample?</th>
+      <th>Delete?</th>
+    </tr>
+  </thead>
+  <tbody id="formset-body">
+    {% for tc in formset %}
+      <tr>
+        <td>{{ tc.order }}</td>
+        <td>{{ tc.input_data }}</td>
+        <td>{{ tc.expected_output }}</td>
+        <td>{{ tc.is_sample }}</td>
+        <td>{{ tc.DELETE }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<button id="add-testcase" class="btn btn-sm btn-outline-secondary mb-3">
+  + Add Testcase
+</button>
+
+
+    <button type="submit" class="btn btn-primary">Save Problem & Testcases</button>
+  </form>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const addBtn      = document.getElementById('add-testcase');
+  const formsetBody = document.getElementById('formset-body');
+  const totalForms  = document.querySelector('input[name="{{ formset.prefix }}-TOTAL_FORMS"]');
+  const emptyFormTpl= document.getElementById('empty-form').innerHTML;
+
+  addBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    const count = parseInt(totalForms.value, 10);
+    const row   = emptyFormTpl.replace(/__prefix__/g, count);
+    formsetBody.insertAdjacentHTML('beforeend', row);
+    totalForms.value = count + 1;
+  });
+});
+</script>
+
+{% endblock %}

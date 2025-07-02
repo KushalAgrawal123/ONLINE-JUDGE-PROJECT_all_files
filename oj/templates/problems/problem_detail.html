@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-body">
+      <h2 class="card-title">{{ problem.title }}</h2>
+      <p class="card-subtitle text-muted mb-3">
+  Author: <strong>{{ problem.created_by.username }}</strong> |
+  Created: {{ problem.created_at|date:"Y-m-d H:i" }}
+</p>
+
+      <hr>
+      <h5>Description:</h5>
+      <p class="card-text">{{ problem.statement|linebreaks }}</p>
+      <h4 class="mt-4">Sample Testcases</h4>
+{% for tc in problem.testcases.all %}
+  {% if tc.is_sample %}
+    <div class="card my-2">
+      <div class="card-body">
+        <h6>Sample {{ forloop.counter }}</h6>
+        <strong>Input:</strong>
+        <pre>{{ tc.input_data }}</pre>
+        <strong>Output:</strong>
+        <pre>{{ tc.expected_output }}</pre>
+      </div>
+    </div>
+  {% endif %}
+{% empty %}
+  <p>No sample testcases available.</p>
+{% endfor %}
+
+      <hr>
+      <h6>Time Limit:</h6>
+      <p>{{ problem.time_limit }} seconds</p>
+      <a href="{% url 'submit' problem.slug %}" class="btn btn-success mt-3">Submit Solution</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

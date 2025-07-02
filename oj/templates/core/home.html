@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center p-5">
+          {% if user.is_authenticated %}
+            <h1 class="display-5 mb-3">Welcome to Online Judge, {{ user.username }}!</h1>
+          {% else %}
+            <h1 class="display-5 mb-3">Welcome to Online Judge</h1>
+          {% endif %}
+          <p class="lead mb-4">
+            Test your coding skills, solve problems, and improve your programming.
+          </p>
+
+          <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a href="{% url 'problem_list' %}" class="btn btn-primary btn-lg">Browse Problems</a>
+            {% if user.is_authenticated %}
+              <a href="{% url 'submission_history' %}" class="btn btn-outline-secondary btn-lg">View Submissions</a>
+            {% else %}
+              <a href="{% url 'signup' %}" class="btn btn-outline-secondary btn-lg">Join Now</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
